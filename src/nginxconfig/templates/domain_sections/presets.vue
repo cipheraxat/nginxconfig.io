@@ -300,7 +300,8 @@ THE SOFTWARE.
             presetEvent(name, overwrite = false) {
                 analytics({
                     category: 'Preset',
-                    action: overwrite ? 'Overwritten' : 'Applied', // TODO: Is overwritten the best word here?
+                    // Use a clearer action name for analytics
+                    action: overwrite ? 'Updated' : 'Applied',
                     label: name,
                 });
             },
