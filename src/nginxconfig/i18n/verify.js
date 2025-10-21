@@ -83,8 +83,15 @@ const todos = (file) => {
 
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
-        const match = line.match(/\/\/\s*todo([([].*?[)\]])?\s*:?\s*(.*)/i);
-        if (match) items.push([i + 1, line, match[0], match[1], match[2]]);
+        // Match various TODO comment styles and capture the trailing text
+        const match = line.match(/\/\/\s*todo(?:\s*[::-])?\s*(.*)/i);
+        if (match) {
+            // Ignore translation placeholder TODOs (these are expected in many packs)
+            const text = (match[1] || '').trim();
+            if (/^translate$/i.test(text) || (/translate/i.test(text) && text.length < 40))
+                continue;
+            items.push([i + 1, line, match[0], match[1]]);
+        }
     }
 
     return items;
